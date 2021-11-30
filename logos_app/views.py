@@ -46,7 +46,16 @@ def article_request(request):
 
 def article_list_request(request):
 
+    data = []
     queryset = Article.objects.all()
-    data = serializers.serialize('json', queryset)
+    for q in queryset:
+        author = User.objects.get(pk=q.id_autor)
+        data.append({
+            "id": q.pk,
+            "title": q.name,
+            "author": author.first_name +' '+ author.last_name,
+            "text": q.text[:100]
 
+        })
+    print(data)
     return JsonResponse(data, safe=False)
