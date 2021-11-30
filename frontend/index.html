@@ -26,7 +26,8 @@
                 <div>
                     <!-- <button type='button' > -->
                     <a href="{% url 'logout_user_url'%}">
-                        <img class="header__buttonImg" src="{% static 'images/power-button.svg' %}" alt='power button' />
+                        <img class="header__buttonImg" src="{% static 'images/power-button.svg' %}"
+                            alt='power button' />
                     </a>
                     <!--</button>-->
                 </div>
@@ -50,32 +51,38 @@
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="{% url 'admin:index'%}">Admin bar</a>
-                        <a href="{% url 'admin:index'%}"><img class="sidebarItem__image" src="{% static 'images/sidebarProfile.svg' %}" alt='icon' /></a>
+                        <a href="{% url 'admin:index'%}"><img class="sidebarItem__image"
+                                src="{% static 'images/sidebarProfile.svg' %}" alt='icon' /></a>
                     </div>
                 </li>
                 {% endif %}
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="#">Funkčnost</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}" alt='icon' /></a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
+                                alt='icon' /></a>
                     </div>
                 </li>
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="#">Funkčnost</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}" alt='icon' /></a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
+                                alt='icon' /></a>
                     </div>
                 </li>
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="#">Funkčnost</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarSettings.svg' %}" alt='icon' /></a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarSettings.svg' %}"
+                                alt='icon' /></a>
                     </div>
                 </li>
             </ul>
         </nav>
         <main class="main">
-            Put the content you need inside main tag (line 60).
+            <section class="main__newsContainer">
+                <!-- <div class="main__article">Put the content you need inside main tag (line 60).</div> -->
+            </section>
         </main>
 
         <footer class="footer">
@@ -88,6 +95,8 @@
             </div>
         </footer>
     </div>
+
+    <script src="../static/js/index.js"></script>
 </body>
 
 </html>
