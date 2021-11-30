@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse
-
+from .models import Article
 
 # Create your views here.
 
@@ -29,9 +29,15 @@ def logout_user(request):
 
 
 def article_request(request):
+    print("here")
     # queryset = User.objects.all() #temp solution for testing
     # data = serializers.serialize('json', queryset)
+    # queryset = Article.objects.all()
+    # data = serializers.serialize('json', queryset)
     data = {
-        "key": "data"
+        "key": "key",
+        "name": "name",
+        "text": "sample text",
+
     }
     return JsonResponse(data, safe=False)

@@ -1,6 +1,6 @@
 const newsContainer = document.querySelector('.main__newsContainer');
 
-const url = 'ссылОЧКА';
+const url = 'article/';
 
 const getArticles = elem => {
     let elemContent = '';
