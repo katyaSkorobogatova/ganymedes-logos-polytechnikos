@@ -27,28 +27,28 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+def article_view(request, id):
+    a_list = []
+    for art in Article.objects.all():
+        a_list.append(art.pk)
+    if id not in a_list:
+        raise Http404
+    else:
+        return render(request, "index.html", {})
 
-def article_request(request):
+def article_request(request, id):
 
-    # queryset = User.objects.all() #temp solution for testing
-    # data = serializers.serialize('json', queryset)
-    # queryset = Article.objects.all()
-    # data = serializers.serialize('json', queryset)
+    queryset = Article.objects.get(pk=id)
+    data = serializers.serialize('json', [queryset])
 
-    data = {
-        "key": "key",
-        "name": "name",
-        "text": "sample text",
-
-    }
     return JsonResponse(data, safe=False)
 
 
 def article_list_request(request):
 
     data = []
-    queryset = Article.objects.all()
-    for q in queryset:
+    # queryset = Article.objects.all()
+    for q in Article.objects.all():
         author = User.objects.get(pk=q.id_autor)
         data.append({
             "id": q.pk,

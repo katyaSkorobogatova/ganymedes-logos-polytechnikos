@@ -18,8 +18,9 @@ from django.urls import path, include
 
 from logos_app.views import (
     home_view,
+    article_view,
     article_request,
-article_list_request,
+    article_list_request,
     logout_user
 )
 
@@ -29,4 +30,6 @@ urlpatterns = [
     path('logout/', logout_user, name="logout_user_url"),
     path('article/', article_list_request),
     path('members/', include('django.contrib.auth.urls')),
+    path('article/<int:id>/', article_view),
+    path('article/<int:id>/load', article_request),
 ]
