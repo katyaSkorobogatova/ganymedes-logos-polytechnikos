@@ -29,15 +29,24 @@ def logout_user(request):
 
 
 def article_request(request):
-    print("here")
+
     # queryset = User.objects.all() #temp solution for testing
     # data = serializers.serialize('json', queryset)
     # queryset = Article.objects.all()
     # data = serializers.serialize('json', queryset)
+
     data = {
         "key": "key",
         "name": "name",
         "text": "sample text",
 
     }
+    return JsonResponse(data, safe=False)
+
+
+def article_list_request(request):
+
+    queryset = Article.objects.all()
+    data = serializers.serialize('json', queryset)
+
     return JsonResponse(data, safe=False)
