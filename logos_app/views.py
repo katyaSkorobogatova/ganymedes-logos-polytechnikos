@@ -34,7 +34,7 @@ def article_view(request, id):
     if id not in a_list:
         raise Http404
     else:
-        return render(request, "index.html", {})
+        return render(request, "article.html", {})
 
 def article_request(request, id):
 
