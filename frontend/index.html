@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
         <main class="main">
             <section class="main__newsContainer">
@@ -10,6 +10,6 @@
 
 {% block javascript %}
 
-    <script src="../static/js/index.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
 
 {% endblock %}
