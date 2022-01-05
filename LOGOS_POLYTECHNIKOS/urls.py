@@ -30,6 +30,6 @@ urlpatterns = [
     path('logout/', logout_user, name="logout_user_url"),
     path('article/', article_list_request),
     path('members/', include('django.contrib.auth.urls')),
-    path('article/<int:id>/', article_view),
-    path('article/<int:id>/load', article_request),
+    path('article/<int:id>/', article_view, name="article"),
+    path('article/<int:id>/load', article_request, name="article_load"),
 ]
