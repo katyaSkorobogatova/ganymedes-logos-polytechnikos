@@ -3,3 +3,14 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+.main__articleTitleWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__articleDate {
+    padding-top: 20px;
+}
