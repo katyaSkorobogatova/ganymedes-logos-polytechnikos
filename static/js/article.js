@@ -26,7 +26,7 @@ async function renderArticles(url, parent) {
                             <div class="main__articleLowerPart">
                                 <div class="main__articleText">${parsedData[0].fields.text}</div>
                                 <br />
-                                <span class="main__articleDate">Doplnit datum publikace</span>
+                                <span class="main__articleDate">${parsedData[0].fields.date_of_create}</span>
                             </div>
                         </div>`;
 
