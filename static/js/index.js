@@ -1,14 +1,6 @@
 const newsContainer = document.querySelector('.main__newsContainer');
 const url = 'article/';
 
-function createNode(element) {
-    return document.createElement(element);
-}
-
-function append(parent, el) {
-    return parent.appendChild(el);
-}
-
 async function getArticles(url) {
     try {
         let res = await fetch(url);
@@ -24,17 +16,23 @@ async function renderArticles(url, parent) {
     articles.forEach(article => {
         let htmlSegment = `<div class="main__article">
                                 <div class="main__articleUpperPart">
-                                    <span class="main__articleTitle">${article.title}</span>
+                                    <div class="main__articleTitleWrapper">
+                                        <span class="main__articleTitle">${article.title}</span>
+                                        <span class="main__articleTitle">Článek # ${article.id}</span>
+                                    </div>
                                     <br />
                                     <span class="main__articleAuthor">${article.author}</span>
                                 </div>
                                 <div class="main__articleLowerPart">
                                     <div class="main__articleText">${article.text}</div>
-                                    <span class="main__articleReadmore">
-                                        <a href=${article.url} target="__blank" class="main__articleSource">
-                                            <b>Číst více</b>
-                                        </a>
-                                    </span>
+                                    <div class="main__articleReadmoreAndDate">
+                                        <span class="main__articleDate">Doplnit datum publikace</span>
+                                        <span class="main__articleReadmore">
+                                            <a href="article/${article.id}" target="__blank" class="main__articleSource">
+                                                <b>Číst více</b>
+                                            </a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>`;
 
