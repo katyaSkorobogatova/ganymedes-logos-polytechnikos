@@ -21,7 +21,9 @@
         <header class="header">
             <div class="header__body">
                 <div class="headerLogo__container">
-                    <img class="header__logo" src="{% static 'images/ganymedes-logo.svg' %}" alt='logo' />
+                    <a href="{% url 'home'%}">
+                        <img class="header__logo" src="{% static 'images/ganymedes-logo.svg' %}" alt='logo' />
+                    </a>
                     <span class="header__logo-text">anymedes</span>
                 </div>
                 {% if user.is_authenticated %}
