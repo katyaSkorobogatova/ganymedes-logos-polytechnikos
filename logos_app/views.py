@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from .models import Article
-
+import re
 
 # Create your views here.
 
@@ -49,21 +49,25 @@ def article_request(request, id):
     queryset = Article.objects.get(pk=id)
     author = User.objects.get(pk=queryset.id_autor)
     data = serializers.serialize('json', [queryset])
-    data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name, author.last_name))
+    data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name,
+                                                                                      author.last_name))
+    data = re.sub(r"(\d{4})-(\d{1,2})-(\d{1,2})", r'\3-\2-\1', data)
     return JsonResponse(data, safe=False)
 
 
 def article_list_request(request):
     data = []
+
     # queryset = Article.objects.all()
     for q in Article.objects.all():
+
         author = User.objects.get(pk=q.id_autor)
         data.append({
             "id": q.pk,
             "title": q.name,
             "author": author.first_name + ' ' + author.last_name,
-            "text": q.text[:100]
-
+            "text": q.text[:100] + "...",
+            "date_of_create": q.date_of_create.strftime("%d-%m-%Y")
         })
 
     return JsonResponse(data, safe=False)

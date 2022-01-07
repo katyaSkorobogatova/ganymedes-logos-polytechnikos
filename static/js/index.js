@@ -26,7 +26,7 @@ async function renderArticles(url, parent) {
                                 <div class="main__articleLowerPart">
                                     <div class="main__articleText">${article.text}</div>
                                     <div class="main__articleReadmoreAndDate">
-                                        <span class="main__articleDate">Doplnit datum publikace</span>
+                                        <span class="main__articleDate">${article.date_of_create}</span>
                                         <span class="main__articleReadmore">
                                             <a href="article/${article.id}" target="__blank" class="main__articleSource">
                                                 <b>Číst více</b>
