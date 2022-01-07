@@ -57,12 +57,11 @@ def magazine_list_request(request):
     data = []
 
     for q in Magazine.objects.all():
-
-        data.append({
-            "id": q.pk,
-            "release_date": q.release_date.strftime("%d-%m-%Y"),
-            "published": q.published
-        })
+        if q.published == 1:
+            data.append({
+                "id": q.pk,
+                "release_date": q.release_date.strftime("%d-%m-%Y")
+            })
 
     return JsonResponse(data, safe=False)
 
