@@ -44,6 +44,15 @@ def article_view(request, id):
     else:
         return render(request, "article.html", {})
 
+def magazine_view(request, id):
+    a_list = []
+    for art in Magazine.objects.all():
+        a_list.append(art.pk)
+    if id not in a_list:
+        raise Http404
+    else:
+        return render(request, "magazine.html", {})
+
 def magazine_list_request(request):
     data = []
 
@@ -67,19 +76,18 @@ def article_request(request, id):
     return JsonResponse(data, safe=False)
 
 
-def article_list_request(request):
+def article_list_request(request, id):
     data = []
 
-    # queryset = Article.objects.all()
     for q in Article.objects.all():
-
-        author = User.objects.get(pk=q.id_autor)
-        data.append({
-            "id": q.pk,
-            "title": q.name,
-            "author": author.first_name + ' ' + author.last_name,
-            "text": q.text[:100] + "...",
-            "date_of_create": q.date_of_create.strftime("%d-%m-%Y")
-        })
+        if q.magazine_number == id:
+            author = User.objects.get(pk=q.id_autor)
+            data.append({
+                "id": q.pk,
+                "title": q.name,
+                "author": author.first_name + ' ' + author.last_name,
+                "text": q.text[:100] + "...",
+                "date_of_create": q.date_of_create.strftime("%d-%m-%Y")
+            })
 
     return JsonResponse(data, safe=False)
