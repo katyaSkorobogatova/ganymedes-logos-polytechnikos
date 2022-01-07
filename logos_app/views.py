@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from .models import Article
+from .models import Article, Magazine
 import re
 
 # Create your views here.
@@ -44,6 +44,18 @@ def article_view(request, id):
     else:
         return render(request, "article.html", {})
 
+def magazine_list_request(request):
+    data = []
+
+    for q in Magazine.objects.all():
+
+        data.append({
+            "id": q.pk,
+            "release_date": q.release_date.strftime("%d-%m-%Y"),
+            "published": q.published
+        })
+
+    return JsonResponse(data, safe=False)
 
 def article_request(request, id):
     queryset = Article.objects.get(pk=id)
