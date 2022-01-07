@@ -6,6 +6,7 @@ from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidd
 from .models import Article, Magazine
 import re
 
+
 # Create your views here.
 
 def home_view(request):
@@ -44,6 +45,7 @@ def article_view(request, id):
     else:
         return render(request, "article.html", {})
 
+
 def magazine_view(request, id):
     a_list = []
     for art in Magazine.objects.all():
@@ -52,6 +54,7 @@ def magazine_view(request, id):
         raise Http404
     else:
         return render(request, "magazine.html", {})
+
 
 def magazine_list_request(request):
     data = []
@@ -64,6 +67,7 @@ def magazine_list_request(request):
             })
 
     return JsonResponse(data, safe=False)
+
 
 def article_request(request, id):
     queryset = Article.objects.get(pk=id)

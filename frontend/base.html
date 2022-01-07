@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,13 +62,15 @@
                     </div>
                 </li>
                 {% endif %}
+                {% if request.user|has_group:"author" %}
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="#">Funkčnost</a>
+                        <a class="sidebarItem__link" href="#">author</a>
                         <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
+                {% endif %}
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="#">Funkčnost</a>
