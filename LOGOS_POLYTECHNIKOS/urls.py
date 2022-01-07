@@ -21,12 +21,14 @@ from logos_app.views import (
     article_view,
     article_request,
     article_list_request,
-    logout_user
+    logout_user,
+    login_user
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home"),
+    path('login/', login_user, name="login_user_url"),
     path('logout/', logout_user, name="logout_user_url"),
     path('article/', article_list_request),
     path('members/', include('django.contrib.auth.urls')),
