@@ -2,30 +2,38 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.core import serializers
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from .models import Article
+
 
 # Create your views here.
 
 def home_view(request):
+    return render(request, "index.html", {})
+
+
+def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
         else:
             # messages.success(request, "error: Login failed")
-            return redirect('home')
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
     else:
-        return render(request, "index.html", {})
+        return HttpResponseForbidden()
 
 
 def logout_user(request):
     # messages.success(request, "YOU WERE LOGOUT")
     logout(request)
     return redirect('home')
+
 
 def article_view(request, id):
     a_list = []
@@ -36,16 +44,16 @@ def article_view(request, id):
     else:
         return render(request, "article.html", {})
 
+
 def article_request(request, id):
-
     queryset = Article.objects.get(pk=id)
+    author = User.objects.get(pk=queryset.id_autor)
     data = serializers.serialize('json', [queryset])
-
+    data = data.replace('"id_autor": {}'.format(author.pk), '"id_autor": "{} {}"'.format(author.first_name, author.last_name))
     return JsonResponse(data, safe=False)
 
 
 def article_list_request(request):
-
     data = []
     # queryset = Article.objects.all()
     for q in Article.objects.all():
@@ -53,9 +61,9 @@ def article_list_request(request):
         data.append({
             "id": q.pk,
             "title": q.name,
-            "author": author.first_name +' '+ author.last_name,
+            "author": author.first_name + ' ' + author.last_name,
             "text": q.text[:100]
 
         })
-    print(data)
+
     return JsonResponse(data, safe=False)

@@ -27,7 +27,7 @@
                 {% if user.is_authenticated %}
                 <div>
                     <!-- <button type='button' > -->
-                    <a href="{% url 'logout_user_url'%}">
+                    <a href="{% url 'logout_user_url'%}?next={{ request.path|urlencode }}">
                         <img class="header__buttonImg" src="{% static 'images/power-button.svg' %}"
                             alt='power button' />
                     </a>
@@ -35,12 +35,13 @@
                 </div>
                 {% else %}
                 <div>
-                    <form action="" method="POST">
+                    <form action="{% url 'login_user_url'%}" method="POST">
                         {% csrf_token %}
                         <label>Username</label>
                         <input type="text" name="username">
                         <label>Password</label>
                         <input type="password" name="password">
+                        <input type="hidden" name="next" value="{{ request.path }}">
                         <input type="submit" value="Login">
                     </form>
                 </div>
