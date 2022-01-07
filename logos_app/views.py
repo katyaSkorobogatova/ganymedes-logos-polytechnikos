@@ -49,7 +49,7 @@ def article_request(request, id):
     queryset = Article.objects.get(pk=id)
     author = User.objects.get(pk=queryset.id_autor)
     data = serializers.serialize('json', [queryset])
-    data = data.replace('"id_autor": {}'.format(author.pk), '"id_autor": "{} {}"'.format(author.first_name, author.last_name))
+    data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name, author.last_name))
     return JsonResponse(data, safe=False)
 
 
