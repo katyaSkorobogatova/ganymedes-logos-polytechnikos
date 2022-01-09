@@ -1,5 +1,5 @@
 const newsContainer = document.querySelector('.main__newsContainer');
-const url = 'article/';
+const url = 'magazine/';
 
 async function getArticles(url) {
     try {
@@ -11,27 +11,19 @@ async function getArticles(url) {
 }
 
 async function renderArticles(url, parent) {
-    let articles = await getArticles(url);
+    let magazines = await getArticles(url);
     let html = '';
-    articles.forEach(article => {
-        let htmlSegment = `<div class="main__article">
-                                <div class="main__articleUpperPart">
-                                    <div class="main__articleTitleWrapper">
-                                        <span class="main__articleTitle">${article.title}</span>
-                                        <span class="main__articleTitle">Článek # ${article.id}</span>
-                                    </div>
-                                    <br />
-                                    <span class="main__articleAuthor">${article.author}</span>
+    magazines.forEach(magazine => {
+        let htmlSegment = `<div class="main__magazine">
+                                <div class="main__magazineLeftPart">
+                                    <div class="main__magazineTitle">Číslo časopisu: ${magazine.id}</div>
+                                    <div class="main__magazineDate">${magazine.release_date}</div>
                                 </div>
-                                <div class="main__articleLowerPart">
-                                    <div class="main__articleText">${article.text}</div>
-                                    <div class="main__articleReadmoreAndDate">
-                                        <span class="main__articleDate">${article.date_of_create}</span>
-                                        <span class="main__articleReadmore">
-                                            <a href="article/${article.id}" target="__blank" class="main__articleSource">
-                                                <b>Číst více</b>
-                                            </a>
-                                        </span>
+                                <div class="main__magazineRightPart">
+                                    <div class="main__magazineReadmore">
+                                        <a href="magazine/${magazine.id}" class="main__magazineSource">
+                                            <b>Zhlédnout časopis</b>
+                                        </a>
                                     </div>
                                 </div>
                             </div>`;
