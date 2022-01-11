@@ -5,7 +5,7 @@ from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from .models import Article, Magazine
 import re
-from util import is_author
+from util import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
