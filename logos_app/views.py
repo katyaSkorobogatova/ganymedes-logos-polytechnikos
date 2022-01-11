@@ -5,8 +5,8 @@ from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from .models import Article, Magazine
 import re
-
-
+from util import is_author
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
 def home_view(request):
@@ -94,3 +94,15 @@ def article_list_request(request, id):
             })
 
     return JsonResponse(data, safe=False)
+
+
+@login_required
+@user_passes_test(is_author)
+def article_new(request):
+    return render(request, "new.html", {})
+
+
+@login_required
+@user_passes_test(is_author)
+def articles_my(request):
+    return render(request, "my.html", {})
