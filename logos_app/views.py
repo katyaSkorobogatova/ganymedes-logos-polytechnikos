@@ -99,10 +99,32 @@ def article_list_request(request, id):
 @login_required
 @user_passes_test(is_author)
 def article_new(request):
-    return render(request, "new.html", {})
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, "new.html", {})
 
 
 @login_required
 @user_passes_test(is_author)
 def articles_my(request):
     return render(request, "my.html", {})
+
+
+@login_required
+@user_passes_test(is_author)
+def author_article_list_request(request):
+    data = []
+
+    for q in Article.objects.all():
+        if q.id_autor == request.user.id:
+
+            data.append({
+                "id": q.pk,
+                "title": q.name,
+                "text": q.text[:100] + "...",
+                "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
+                "status": q.status
+            })
+
+    return JsonResponse(data, safe=False)
