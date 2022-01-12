@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/new.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<main class="main">
+    <section class="main__formContainer">
+        <form class="main__form" action="#" method="POST">
+            {% csrf_token %}
+            <div class="main__formTitle">
+                <label for="name">Název článku: </label>
+                <input name="name" id="name">
+            </div>
+            <div class="main__formText">
+                <label for="text">Text článku: </label>
+                <textarea name="text" id="text"></textarea>
+            </div>
+            <div class="main__formButtonContainer">
+                <button class="main__formButton">Uložit do mých článků</button>
+            </div>
+        </form>
+
+    </section>
+</main>
+{% endblock %}

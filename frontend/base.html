@@ -65,22 +65,22 @@
                 {% if request.user|has_group:"author" %}
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="#">author</a>
+                        <a class="sidebarItem__link" href="{% url 'article_new' %}">Přidat článek</a>
                         <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
+                                alt='icon' /></a>
+                    </div>
+                </li>
+                <li class="nav__item">
+                    <div class="sidebarItem">
+                        <a class="sidebarItem__link" href="{% url 'articles_my' %}">Moje články</a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
                 {% endif %}
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="#">Funkčnost</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
-                                alt='icon' /></a>
-                    </div>
-                </li>
-                <li class="nav__item">
-                    <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="#">Funkčnost</a>
+                        <a class="sidebarItem__link" href="#">Help desk</a>
                         <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarSettings.svg' %}"
                                 alt='icon' /></a>
                     </div>
