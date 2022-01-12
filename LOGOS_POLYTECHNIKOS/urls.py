@@ -27,7 +27,8 @@ from logos_app.views import (
     magazine_view,
     article_new,
     author_article_list_request,
-    articles_my
+    articles_my,
+    to_review
 
 )
 
@@ -45,4 +46,5 @@ urlpatterns = [
     path('newarticle/', article_new, name="article_new"),
     path('myarticles/', articles_my, name="articles_my"),
     path('myarticles/load', author_article_list_request, name="author_articles_load"),
+    path('myarticles/<int:id>/toreview', to_review, name="to_review"),
 ]

@@ -135,3 +135,19 @@ def author_article_list_request(request):
             })
 
     return JsonResponse(data, safe=False)
+
+
+@login_required
+@user_passes_test(is_author)
+def to_review(request, id):
+    try:
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.id_autor == request.user.id:
+            article_instance.status = "in review"
+            article_instance.date_of_create = datetime.now()
+            article_instance.save()
+            return redirect('articles_my')
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
