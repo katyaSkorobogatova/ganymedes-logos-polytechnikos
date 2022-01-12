@@ -7,7 +7,8 @@ from .models import Article, Magazine
 import re
 from .util import *
 from django.contrib.auth.decorators import login_required, user_passes_test
-# Create your views here.
+
+from datetime import datetime
 
 def home_view(request):
     return render(request, "index.html", {})
@@ -99,8 +100,13 @@ def article_list_request(request, id):
 @login_required
 @user_passes_test(is_author)
 def article_new(request):
+
     if request.method == 'POST':
-        text = request.POST['text']
+        article_instance = Article(id_autor=request.user.id, name=request.POST['name'],
+                                   text=request.POST['text'], status="in review",
+                                   magazine_number=-1, date_of_create=datetime.now())
+        article_instance.save()
+        return redirect('/article/{}/'.format(article_instance.pk_article))
 
     else:
         return render(request, "new.html", {})
