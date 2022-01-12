@@ -122,6 +122,20 @@ def article_new(request):
 
 @login_required
 @user_passes_test(is_author)
+def article_delete(request, id):
+    try:
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.id_autor == request.user.id:
+            article_instance.delete()
+            return redirect('articles_my')
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
+
+
+@login_required
+@user_passes_test(is_author)
 def articles_my(request):
     return render(request, "my.html", {})
 
