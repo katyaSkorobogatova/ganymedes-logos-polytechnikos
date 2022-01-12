@@ -103,7 +103,7 @@ def article_new(request):
 
     if request.method == 'POST':
         article_instance = Article(id_autor=request.user.id, name=request.POST['name'],
-                                   text=request.POST['text'], status="in review",
+                                   text=request.POST['text'], status="draft",
                                    magazine_number=-1, date_of_create=datetime.now())
         article_instance.save()
         return redirect('/article/{}/'.format(article_instance.pk_article))
