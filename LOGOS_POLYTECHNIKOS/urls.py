@@ -28,8 +28,9 @@ from logos_app.views import (
     article_new,
     author_article_list_request,
     articles_my,
-    to_review
-
+    to_review,
+    article_delete
+    
 )
 
 urlpatterns = [
@@ -42,6 +43,7 @@ urlpatterns = [
     path('magazine/', magazine_list_request, name="magazine_list"),
     path('members/', include('django.contrib.auth.urls')),
     path('article/<int:id>/', article_view, name="article"),
+    path('article/<int:id>/delete', article_delete, name="article_delete"),
     path('article/<int:id>/load', article_request, name="article_load"),
     path('newarticle/', article_new, name="article_new"),
     path('myarticles/', articles_my, name="articles_my"),
