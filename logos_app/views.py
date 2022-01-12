@@ -147,13 +147,21 @@ def author_article_list_request(request):
 
     for q in Article.objects.all():
         if q.id_autor == request.user.id:
-
+            status = "None"
+            if q.status == "published":
+                status = "Zveřejněno"
+            elif q.status == "draft":
+                status = "Návrh"
+            elif q.status == "in review":
+                status = "V recenzi"
+            elif q.status == "reviewed":
+                status = "Recenzovaný"
             data.append({
                 "id": q.pk,
                 "title": q.name,
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
-                "status": q.status
+                "status": status
             })
 
     return JsonResponse(data, safe=False)
@@ -173,7 +181,6 @@ def to_review(request, id):
             raise Http404
     except Article.DoesNotExist:
         raise Http404
-
 
 @login_required
 @user_passes_test(is_author)
