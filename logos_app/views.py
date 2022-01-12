@@ -38,13 +38,16 @@ def logout_user(request):
 
 
 def article_view(request, id):
-    a_list = []
-    for art in Article.objects.all():
-        a_list.append(art.pk)
-    if id not in a_list:
+    try:
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.status == "published" or article_instance.id_autor == request.user.id:
+            return render(request, "article.html", {})
+        else:
+            raise Http404
+
+    except Article.DoesNotExist:
         raise Http404
-    else:
-        return render(request, "article.html", {})
+
 
 
 def magazine_view(request, id):
@@ -71,20 +74,25 @@ def magazine_list_request(request):
 
 
 def article_request(request, id):
-    queryset = Article.objects.get(pk=id)
-    author = User.objects.get(pk=queryset.id_autor)
-    data = serializers.serialize('json', [queryset])
-    data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name,
-                                                                                      author.last_name))
-    data = re.sub(r"(\d{4})-(\d{1,2})-(\d{1,2})", r'\3-\2-\1', data)
-    return JsonResponse(data, safe=False)
-
+    try:
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.status == "published" or article_instance.id_autor == request.user.id:
+            author = User.objects.get(pk=article_instance.id_autor)
+            data = serializers.serialize('json', [article_instance])
+            data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name,
+                                                                                              author.last_name))
+            data = re.sub(r"(\d{4})-(\d{1,2})-(\d{1,2})", r'\3-\2-\1', data)
+            return JsonResponse(data, safe=False)
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
 
 def article_list_request(request, id):
     data = []
 
     for q in Article.objects.all():
-        if q.magazine_number == id:
+        if q.magazine_number == id and q.status == "published":
             author = User.objects.get(pk=q.id_autor)
             data.append({
                 "id": q.pk,
