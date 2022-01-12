@@ -29,8 +29,9 @@ from logos_app.views import (
     author_article_list_request,
     articles_my,
     to_review,
-    article_delete
-    
+    article_delete,
+    article_edit
+
 )
 
 urlpatterns = [
@@ -45,6 +46,7 @@ urlpatterns = [
     path('article/<int:id>/', article_view, name="article"),
     path('article/<int:id>/delete', article_delete, name="article_delete"),
     path('article/<int:id>/load', article_request, name="article_load"),
+    path('editarticle/<int:id>/', article_edit, name="article_edit"),
     path('newarticle/', article_new, name="article_new"),
     path('myarticles/', articles_my, name="articles_my"),
     path('myarticles/load', author_article_list_request, name="author_articles_load"),

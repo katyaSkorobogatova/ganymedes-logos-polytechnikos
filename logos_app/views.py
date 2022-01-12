@@ -173,3 +173,23 @@ def to_review(request, id):
             raise Http404
     except Article.DoesNotExist:
         raise Http404
+
+
+@login_required
+@user_passes_test(is_author)
+def article_edit(request, id):
+    try:
+
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.id_autor == request.user.id:
+            if request.method == 'POST':
+                article_instance.name = request.POST.get('name')
+                article_instance.text = request.POST.get('text')
+                article_instance.save()
+                return redirect('/article/{}/'.format(article_instance.pk_article))
+            else:
+                return render(request, "edit.html", {})
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
