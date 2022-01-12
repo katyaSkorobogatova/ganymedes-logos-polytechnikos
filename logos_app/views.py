@@ -5,7 +5,7 @@ from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from .models import Article, Magazine
 import re
-from util import *
+from .util import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
@@ -100,7 +100,8 @@ def article_list_request(request, id):
 @user_passes_test(is_author)
 def article_new(request):
     if request.method == 'POST':
-        pass
+        text = request.POST['text']
+
     else:
         return render(request, "new.html", {})
 
