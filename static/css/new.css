@@ -1,0 +1,81 @@
+.main__formContainer {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 70%;
+    margin-top: 100px;
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.main__formTitle {
+    margin: 0 0 30px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main__formTitle label,
+.main__formText label {
+    margin-bottom: 10px;
+    font-size: 26px;
+    line-height: 27px;
+    font-family: "Roboto", sans-serif;
+}
+
+.main__formTitle input,
+.main__formText textarea {
+    border: 1px solid #999;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 7px;
+}
+
+.main__formText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 10px 0;
+    margin-top: 10px;
+}
+
+.main__formText textarea {
+    min-height: 200px;
+    resize: none;
+}
+
+.main__formButtonContainer {
+    margin-top: 8px;
+    width: 100%;
+    text-align: right;
+}
+
+.main__formButton {
+    padding: 8px;
+    font-weight: 400;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: #53C3CB;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+    color: black;
+}
+
+.main__formButton:hover {
+    transition: 0.2s;
+    color: #fff;
+    cursor: pointer;
+}

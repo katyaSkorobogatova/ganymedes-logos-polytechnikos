@@ -1,0 +1,50 @@
+.main__article {
+    min-width: 70%;
+    max-width: 70%;
+}
+
+.main__articleAuthor {
+    font-size: 20px;
+    color: #53C3CB;
+}
+
+.main__articleDateAndButtonsContainer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__articleButtonsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.main__articleButton {
+    margin-right: 30px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #53C3CB;
+    color: black;
+}
+
+.main__articleButton:nth-last-child(1) {
+    margin-right: 15px;
+}
+
+.main__articleButton:hover,
+.main__articleButtonLink:hover {
+    transition: 0.2s;
+    color: #fff;
+    cursor: pointer;
+}
+
+.main__articleButtonLink {
+    text-decoration: none;
+    color: black;
+    font-weight: 400;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+}
