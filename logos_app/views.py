@@ -125,7 +125,7 @@ def article_new(request):
 def article_delete(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor == request.user.id:
+        if article_instance.id_autor == request.user.id and article_instance.status == "draft":
             article_instance.delete()
             return redirect('articles_my')
         else:
@@ -188,7 +188,7 @@ def article_edit(request, id):
     try:
 
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor == request.user.id:
+        if article_instance.id_autor == request.user.id and article_instance.status == "draft":
             if request.method == 'POST':
                 article_instance.name = request.POST.get('name')
                 article_instance.text = request.POST.get('text')
