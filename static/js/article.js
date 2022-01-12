@@ -18,7 +18,7 @@ async function renderArticles(url, parent) {
                             <div class="main__articleUpperPart">
                                 <div class="main__articleTitleWrapper">
                                     <span class="main__articleTitle">${parsedData[0].fields.name}</span>
-                                    <span class="main__articleTitle">Článek # ${parsedData[0].fields.magazine_number}</span>
+                                    <span class="main__articleTitle">Článek # ${parsedData[0].pk}</span>
                                 </div>
                                 <br />
                                 <span class="main__articleAuthor">${parsedData[0].fields.autor}</span>
