@@ -8,7 +8,7 @@
 
 .appWrapper {
     width: 100%;
-    min-height: 150vh;
+    min-height: 100vh;
     position: relative;
     background-color: #02062B;
 }
@@ -18,8 +18,10 @@
 .main {
     min-width: calc(100% - 230px);
     position: absolute;
+    bottom: 110px;
     left: 230px;
     top: 80px;
+    overflow: auto;
 }
 
 .main__newsContainer {
@@ -32,7 +34,6 @@
 
 .main__article {
     position: relative;
-    padding: 0 0 0 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -119,6 +120,7 @@
     font-size: 20px;
     line-height: 22px;
     color: #44444d;
+    overflow-wrap: break-word;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -251,7 +253,7 @@ form input[type="submit"]:hover {
 
 .footer {
     min-width: calc(100% - 230px);
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 230px;
     background-color: #02062B;
