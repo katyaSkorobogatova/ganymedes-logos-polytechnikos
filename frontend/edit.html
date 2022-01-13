@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/new.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<main class="main">
+    <section class="main__formContainer">
+        <form class="main__form" action="#" method="POST">
+            {% csrf_token %}
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'js/edit.js' %}"></script>
+
+{% endblock %}
