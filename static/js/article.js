@@ -13,7 +13,6 @@ async function getArticles(url) {
 async function renderArticles(url, parent) {
     let article = await getArticles(url);
     let parsedData = JSON.parse(article);
-    console.log(parsedData);
     let htmlSegment = `<div class="main__article">
                             <div class="main__articleUpperPart">
                                 <div class="main__articleTitleWrapper">
