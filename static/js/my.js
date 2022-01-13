@@ -12,7 +12,6 @@ async function getArticles(url) {
 
 async function renderArticles(url, parent) {
     let articles = await getArticles(url);
-    console.log(articles);
     let html = '';
     articles.forEach(article => {
         let htmlSegment = `<div class="main__article">
@@ -30,15 +29,18 @@ async function renderArticles(url, parent) {
                                     <span class="main__articleDate">${article.date_of_create}</span>
                                     <div class="main__articleButtonsContainer">
                                         <div class="main__articleButton">
-                                            <a href="" class="main__articleButtonLink">Upravit</a>
-                                        </div>
-                                        <div class="main__articleButton">
-                                            <a href="" class="main__articleButtonLink">Odstranit</a>
+                                            <a href="/article/${article.id}" class="main__articleButtonLink">Číst více</a>
                                         </div>
                                         ${article.status === "Návrh" 
                                             ? `<div class="main__articleButton">
-                                                <a href="/myarticles/${article.id}/toreview" class="main__articleButtonLink">Odeslat oponentovi</a>
-                                              </div>` 
+                                                    <a href="" class="main__articleButtonLink">Upravit</a>
+                                               </div>
+                                               <div class="main__articleButton">
+                                                    <a href="" class="main__articleButtonLink">Odstranit</a>
+                                               </div>
+                                               <div class="main__articleButton">
+                                                    <a href="/myarticles/${article.id}/toreview" class="main__articleButtonLink">Odeslat oponentovi</a>
+                                               </div>`
                                             : `<div></div>`}
                                     </div>
                                 </div>
