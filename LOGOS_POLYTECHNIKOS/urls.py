@@ -30,7 +30,9 @@ from logos_app.views import (
     articles_my,
     to_review,
     article_delete,
-    article_edit
+    article_edit,
+    new_review_view,
+    reviewer_article_list_request
 
 )
 
@@ -51,4 +53,6 @@ urlpatterns = [
     path('myarticles/', articles_my, name="articles_my"),
     path('myarticles/load', author_article_list_request, name="author_articles_load"),
     path('myarticles/<int:id>/toreview', to_review, name="to_review"),
+    path('article/<int:id>/review', new_review_view, name="new_review"),
+    path('toreview/load', reviewer_article_list_request, name="new_review"),
 ]

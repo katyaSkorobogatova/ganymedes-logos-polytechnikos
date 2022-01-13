@@ -80,7 +80,9 @@ def magazine_list_request(request):
 def article_request(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.status == "published" or article_instance.id_autor == request.user.id:
+        if article_instance.status == "published" or article_instance.id_autor == request.user.id or \
+                (article_instance.status == "in review" and is_reviewer(request.user)) or \
+                (article_instance.status == "reviewed" and (is_reviewer(request.user) or is_editor(request.user))):
             author = User.objects.get(pk=article_instance.id_autor)
             data = serializers.serialize('json', [article_instance])
             data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name,
@@ -224,6 +226,35 @@ def reviewer_article_list_request(request):
             })
 
     return JsonResponse(data, safe=False)
+
+
+@login_required
+@user_passes_test(is_reviewer)
+def new_review_view(request, id):
+    try:
+
+        article_instance = Article.objects.get(pk=id)
+        if article_instance.status != "to review":
+            if request.method == 'POST':
+                review_instance = Review(pk_article=id,  id_reviewer=request.user.id,
+                                           id_editor=request.POST['id_editor'], relevancy=request.POST['relevancy'],
+                                         interesting=request.POST['interesting'], usefulness=request.POST['usefulness'],
+                                         originality=request.POST['originality'],
+                                         proffesional_level=request.POST['proffesional_level'],
+                                         language_level=request.POST['language_level'],
+                                         stylistic_level=request.POST['stylistic_level'],
+                                         commentary=request.POST['commentary'],
+                                         status = "draft"
+                                         )
+                review_instance.save()
+                return redirect('/review/{}/'.format(review_instance.pk_review))
+
+            else:
+                return render(request, "new_review.html", {})
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
 
 """
 @login_required
