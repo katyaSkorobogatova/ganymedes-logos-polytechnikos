@@ -33,10 +33,10 @@ async function renderArticles(url, parent) {
                                         </div>
                                         ${article.status === "Návrh" 
                                             ? `<div class="main__articleButton">
-                                                    <a href="" class="main__articleButtonLink">Upravit</a>
+                                                    <a href="/article/${article.id}/edit" class="main__articleButtonLink">Upravit</a>
                                                </div>
                                                <div class="main__articleButton">
-                                                    <a href="" class="main__articleButtonLink">Odstranit</a>
+                                                    <a href="/article/${article.id}/delete" class="main__articleButtonLink">Odstranit</a>
                                                </div>
                                                <div class="main__articleButton">
                                                     <a href="/myarticles/${article.id}/toreview" class="main__articleButtonLink">Odeslat oponentovi</a>

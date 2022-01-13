@@ -13,7 +13,7 @@ async function getArticles(url) {
 async function renderArticles(url, parent) {
     let article = await getArticles(url);
     let parsedData = JSON.parse(article);
-    let htmlSegment = `<div class="main__article">
+    parent.innerHTML = `<div class="main__article">
                             <div class="main__articleUpperPart">
                                 <div class="main__articleTitleWrapper">
                                     <span class="main__articleTitle">${parsedData[0].fields.name}</span>
@@ -28,8 +28,6 @@ async function renderArticles(url, parent) {
                                 <span class="main__articleDate">${parsedData[0].fields.date_of_create}</span>
                             </div>
                         </div>`;
-
-    parent.innerHTML = htmlSegment;
 }
 
 renderArticles(url, newsContainer);
