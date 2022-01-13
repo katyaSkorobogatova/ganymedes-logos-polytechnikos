@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.http import Http404, JsonResponse, HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from .models import Article, Magazine
+from .models import Article, Magazine, Review
 import re
 from .util import *
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -41,6 +41,10 @@ def article_view(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
         if article_instance.status == "published" or article_instance.id_autor == request.user.id:
+            return render(request, "article.html", {})
+        elif article_instance.status == "in review" and is_reviewer(request.user):
+            return render(request, "article_review.html", {})
+        elif article_instance.status == "reviewed" and (is_reviewer(request.user) or is_editor(request.user)):
             return render(request, "article.html", {})
         else:
             raise Http404
@@ -182,6 +186,7 @@ def to_review(request, id):
     except Article.DoesNotExist:
         raise Http404
 
+
 @login_required
 @user_passes_test(is_author)
 def article_edit(request, id):
@@ -200,3 +205,42 @@ def article_edit(request, id):
             raise Http404
     except Article.DoesNotExist:
         raise Http404
+
+
+@login_required
+@user_passes_test(is_reviewer)
+def reviewer_article_list_request(request):
+    data = []
+
+    for q in Article.objects.all():
+        if q.status == "in review":
+            author = User.objects.get(pk=q.id_autor)
+            data.append({
+                "id": q.pk,
+                "title": q.name,
+                "text": q.text[:100] + "...",
+                "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
+                "author": author.first_name + ' ' + author.last_name,
+            })
+
+    return JsonResponse(data, safe=False)
+
+"""
+@login_required
+@user_passes_test(is_reviewer)
+def reviewer_review_list_request(request):
+    data = []
+
+    for q in Review.objects.all():
+        if q.id_reviewer == request.user.id:
+            author = User.objects.get(pk=q.id_autor)
+            data.append({
+                "id": q.pk,
+                "title": q.name,
+                "text": q.text[:100] + "...",
+                "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
+                "author": author.first_name + ' ' + author.last_name,
+            })
+
+    return JsonResponse(data, safe=False)
+"""
