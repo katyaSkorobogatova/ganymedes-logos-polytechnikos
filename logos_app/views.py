@@ -81,7 +81,7 @@ def article_request(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
         if article_instance.status == "published" or article_instance.id_autor == request.user.id or \
-                (article_instance.status == "in review" and is_reviewer(request.user)) or \
+                (article_instance.status == "in review" and is_reviewer(request.user) or is_editor(request.user)) or \
                 (article_instance.status == "reviewed" and (is_reviewer(request.user) or is_editor(request.user))):
             author = User.objects.get(pk=article_instance.id_autor)
             data = serializers.serialize('json', [article_instance])
