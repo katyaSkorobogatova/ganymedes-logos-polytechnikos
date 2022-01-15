@@ -40,7 +40,7 @@ def logout_user(request):
 def article_view(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.status == "published" or article_instance.id_autor == request.user.id:
+        if article_instance.status == "published" or article_instance.id_autor.pk == request.user.id:
             return render(request, "article.html", {})
         elif article_instance.status == "in review" and is_reviewer(request.user):
             return render(request, "article_review.html", {})
@@ -80,13 +80,13 @@ def magazine_list_request(request):
 def article_request(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.status == "published" or article_instance.id_autor == request.user.id or \
+        if article_instance.status == "published" or article_instance.id_autor.pk == request.user.id or \
                 (article_instance.status == "in review" and is_reviewer(request.user) or is_editor(request.user)) or \
                 (article_instance.status == "reviewed" and (is_reviewer(request.user) or is_editor(request.user))):
-            author = User.objects.get(pk=article_instance.id_autor)
+
             data = serializers.serialize('json', [article_instance])
-            data = data.replace('"id_autor": {}'.format(author.pk), '"autor": "{} {}"'.format(author.first_name,
-                                                                                              author.last_name))
+            data = data.replace('"id_autor": {}'.format(article_instance.id_autor.pk), '"autor": "{} {}"'.format(article_instance.id_autor.first_name,
+                                                                                              article_instance.id_autor.last_name))
             data = re.sub(r"(\d{4})-(\d{1,2})-(\d{1,2})", r'\3-\2-\1', data)
             return JsonResponse(data, safe=False)
         else:
@@ -98,15 +98,17 @@ def article_list_request(request, id):
     data = []
 
     for q in Article.objects.all():
-        if q.magazine_number == id and q.status == "published":
-            author = User.objects.get(pk=q.id_autor)
-            data.append({
-                "id": q.pk,
-                "title": q.name,
-                "author": author.first_name + ' ' + author.last_name,
-                "text": q.text[:100] + "...",
-                "date_of_create": q.date_of_create.strftime("%d-%m-%Y")
-            })
+        
+        if q.magazine_number is not None:
+            if q.magazine_number.pk_magazine == id and q.status == "published":
+
+                data.append({
+                    "id": q.pk,
+                    "title": q.name,
+                    "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
+                    "text": q.text[:100] + "...",
+                    "date_of_create": q.date_of_create.strftime("%d-%m-%Y")
+                })
 
     return JsonResponse(data, safe=False)
 
@@ -116,9 +118,10 @@ def article_list_request(request, id):
 def article_new(request):
 
     if request.method == 'POST':
-        article_instance = Article(id_autor=request.user.id, name=request.POST['name'],
+        user = User.objects.get(id=request.user.id)
+        article_instance = Article(id_autor=user, name=request.POST['name'],
                                    text=request.POST['text'], status="draft",
-                                   magazine_number=-1, date_of_create=datetime.now())
+                                    date_of_create=datetime.now(), edited=0)
         article_instance.save()
         return redirect('/article/{}/'.format(article_instance.pk_article))
 
@@ -131,7 +134,7 @@ def article_new(request):
 def article_delete(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor == request.user.id and article_instance.status == "draft":
+        if article_instance.id_autor.pk == request.user.id and article_instance.status == "draft":
             article_instance.delete()
             return redirect('articles_my')
         else:
@@ -152,7 +155,7 @@ def author_article_list_request(request):
     data = []
 
     for q in Article.objects.all():
-        if q.id_autor == request.user.id:
+        if q.id_autor.pk == request.user.id:
             status = "None"
             if q.status == "published":
                 status = "Zveřejněno"
@@ -178,7 +181,7 @@ def author_article_list_request(request):
 def to_review(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor == request.user.id:
+        if article_instance.id_autor.pk == request.user.id:
             article_instance.status = "in review"
             article_instance.date_of_create = datetime.now()
             article_instance.save()
@@ -195,7 +198,7 @@ def article_edit(request, id):
     try:
 
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor == request.user.id and article_instance.status == "draft":
+        if article_instance.id_autor.pk == request.user.id and article_instance.status == "draft":
             if request.method == 'POST':
                 article_instance.name = request.POST.get('name')
                 article_instance.text = request.POST.get('text')
@@ -216,13 +219,13 @@ def reviewer_article_list_request(request):
 
     for q in Article.objects.all():
         if q.status == "in review":
-            author = User.objects.get(pk=q.id_autor)
+
             data.append({
                 "id": q.pk,
                 "title": q.name,
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
-                "author": author.first_name + ' ' + author.last_name,
+                "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
             })
 
     return JsonResponse(data, safe=False)
