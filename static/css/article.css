@@ -5,12 +5,48 @@
 }
 
 .main__articleTitleWrapper {
-    width: 100%;
+    min-width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .main__articleDate {
-    padding-top: 20px;
+    padding: 20px 0 20px 0;
+}
+
+.main__articleEvaluations {
+    min-width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.main__articleEvaluation-comment {
+    min-width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__articleEvaluation-commentText {
+    padding: 0 80px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.main__articleEvaluation-commentLabel {
+    margin-bottom: 10px;
+}
+
+.main__articleEvaluation,
+.main__articleEvaluation-commentLabel {
+    padding: 0 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #44444d;
 }
