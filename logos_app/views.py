@@ -313,6 +313,12 @@ def editor_article_inreview_list_request(request):
 
     return JsonResponse(data, safe=False)
 
+@login_required
+@user_passes_test(is_editor)
+def editor_article_inreview_list_view(request):
+    return render(request, "inreview.html", {})
+
+
 
 @login_required
 @user_passes_test(is_editor)
@@ -331,3 +337,7 @@ def editor_article_reviewed_list_request(request):
 
     return JsonResponse(data, safe=False)
 
+@login_required
+@user_passes_test(is_editor)
+def editor_article_reviewed_list_view(request):
+    return render(request, "reviewed.html", {})

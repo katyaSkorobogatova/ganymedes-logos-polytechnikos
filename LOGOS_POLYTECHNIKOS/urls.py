@@ -36,7 +36,9 @@ from logos_app.views import (
     review_request,
     editor_article_reviewed_list_request,
     editor_article_inreview_list_request,
-    set_reviewer
+    set_reviewer,
+    editor_article_inreview_list_view,
+    editor_article_reviewed_list_view
 )
 
 urlpatterns = [
@@ -59,7 +61,9 @@ urlpatterns = [
     path('article/<int:id>/review', new_review_view, name="new_review"),
     path('toreview/load/', reviewer_article_list_request, name="reviewer_article_list"),
     path('review/<int:id>/', review_request, name="review_request"),
-    path('reviewed/load', editor_article_reviewed_list_request, name="reviewed"),
-    path('pending/load', editor_article_inreview_list_request, name="pending"),
+    path('reviewed/load', editor_article_reviewed_list_request, name="reviewed_list"),
+    path('reviewed/', editor_article_reviewed_list_view, name="reviewed"),
+    path('inreview/load', editor_article_inreview_list_request, name="inreview_list"),
+    path('inreview/', editor_article_inreview_list_view, name="pending"),
     path('setreviewer/', set_reviewer, name="setreviewer"),
 ]
