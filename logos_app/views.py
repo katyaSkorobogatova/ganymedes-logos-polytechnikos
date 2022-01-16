@@ -344,7 +344,7 @@ def editor_article_reviewed_list_view(request):
 
 @login_required
 @user_passes_test(is_editor)
-def editor_rewiewer_list_request(request):
+def editor_reviewer_list_request(request):
     data = []
 
     for q in User.objects.all():
