@@ -8,6 +8,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Article(models.Model):
     pk_article = models.AutoField(primary_key=True)
     id_autor = models.ForeignKey(User, models.DO_NOTHING, related_name="autor", db_column='id_autor')
@@ -19,7 +20,7 @@ class Article(models.Model):
     status = models.CharField(max_length=9, blank=True, null=True)
     id_editor = models.ForeignKey(User, models.DO_NOTHING, related_name="editor", db_column='id_editor', blank=True, null=True)
     id_review = models.ForeignKey('Review', models.DO_NOTHING, db_column='id_review', blank=True, null=True)
-
+    id_reviewer = models.ForeignKey(User, models.DO_NOTHING, related_name="reviewer_art", db_column='id_reviewer', blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'article'
