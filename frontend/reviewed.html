@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/my.css' %}">
+<link rel="stylesheet" href="{% static 'css/reviewed.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<main class="main">
+    <section class="main__newsContainer"></section>
+</main>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'js/reviewed.js' %}"></script>
+
+{% endblock %}
