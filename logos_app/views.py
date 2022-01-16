@@ -198,7 +198,8 @@ def article_edit(request, id):
     try:
 
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor.pk == request.user.id and article_instance.status == "draft":
+        if (article_instance.id_autor.pk == request.user.id and article_instance.status == "draft") and\
+                (is_editor(request.user) and article_instance.status == "in review"):
             if request.method == 'POST':
                 article_instance.name = request.POST.get('name')
                 article_instance.text = request.POST.get('text')
@@ -218,7 +219,7 @@ def reviewer_article_list_request(request):
     data = []
 
     for q in Article.objects.all():
-        if q.status == "in review":
+        if q.status == "in review" and q.id_reviewer.pk == request.user.id :
 
             data.append({
                 "id": q.pk,
@@ -239,24 +240,42 @@ def new_review_view(request, id):
         article_instance = Article.objects.get(pk=id)
         if article_instance.status != "to review":
             if request.method == 'POST':
-                review_instance = Review(pk_article=id,  id_reviewer=request.user.id,
-                                           id_editor=request.POST['id_editor'], relevancy=request.POST['relevancy'],
+                user = User.objects.get(id=request.user.id)
+                review_instance = Review(pk_article=id,  id_reviewer=user,
+                                         relevancy=request.POST['relevancy'],
                                          interesting=request.POST['interesting'], usefulness=request.POST['usefulness'],
                                          originality=request.POST['originality'],
                                          proffesional_level=request.POST['proffesional_level'],
                                          language_level=request.POST['language_level'],
                                          stylistic_level=request.POST['stylistic_level'],
-                                         commentary=request.POST['commentary'],
-                                         status = "draft"
+                                         commentary=request.POST['commentary']
                                          )
                 review_instance.save()
-                return redirect('/review/{}/'.format(review_instance.pk_review))
+                article_instance.id_review = review_instance
+                article_instance.status = "reviewed"
+                article_instance.save()
+                return redirect('/article/{}/'.format(article_instance.pk_article))
 
             else:
                 return render(request, "new_review.html", {})
         else:
             raise Http404
     except Article.DoesNotExist:
+        raise Http404
+
+
+@login_required
+@user_passes_test(is_editor)
+def set_reviewer(request):
+    try:
+        if request.method == 'POST':
+            user = User.objects.get(id=request.POST['reviewer'])
+            article = Article.objects.get(pk=request.POST['article'])
+            article.id_reviewer = user
+            article.save()
+    except Article.DoesNotExist:
+        raise Http404
+    except User.DoesNotExist:
         raise Http404
 
 """
