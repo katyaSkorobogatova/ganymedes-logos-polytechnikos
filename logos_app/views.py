@@ -217,6 +217,8 @@ def article_edit(request, id):
             if request.method == 'POST':
                 article_instance.name = request.POST.get('name')
                 article_instance.text = request.POST.get('text')
+                if is_editor(request.user):
+                    article_instance.id_editor = request.user
                 article_instance.save()
                 return redirect('/article/{}/'.format(article_instance.pk_article))
             else:
@@ -286,6 +288,7 @@ def set_reviewer(request):
             user = User.objects.get(id=request.POST['reviewer'])
             article = Article.objects.get(pk=request.POST['article'])
             article.id_reviewer = user
+            article.id_editor = request.user
             article.save()
     except Article.DoesNotExist:
         raise Http404
