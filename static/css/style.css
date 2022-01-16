@@ -246,6 +246,7 @@ form input[type="submit"]:hover {
 
 .sidebarItem__image {
     max-width: 100%;
+    min-width: 40px;
     height: auto;
     display: block;
 }
