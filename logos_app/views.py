@@ -94,6 +94,20 @@ def article_request(request, id):
     except Article.DoesNotExist:
         raise Http404
 
+def review_request(request, id):
+    try:
+        review_instance = Review.objects.get(pk=id)
+
+        data = serializers.serialize('json', [review_instance])
+        data = data.replace('"id_reviewer": {}'.format(review_instance.id_reviewer.pk),
+                            '"reviewer": "{} {}"'.format(review_instance.id_reviewer.first_name,
+                                                      review_instance.id_reviewer.last_name))
+
+        return JsonResponse(data, safe=False)
+
+    except Article.DoesNotExist:
+        raise Http404
+
 def article_list_request(request, id):
     data = []
 
@@ -278,22 +292,39 @@ def set_reviewer(request):
     except User.DoesNotExist:
         raise Http404
 
-"""
-@login_required
-@user_passes_test(is_reviewer)
-def reviewer_review_list_request(request):
-    data = []
 
-    for q in Review.objects.all():
-        if q.id_reviewer == request.user.id:
-            author = User.objects.get(pk=q.id_autor)
+@login_required
+@user_passes_test(is_editor)
+def editor_article_inreview_list_request(request):
+    data = []
+    for q in Article.objects.all():
+        if q.status == "in review":
             data.append({
                 "id": q.pk,
                 "title": q.name,
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
-                "author": author.first_name + ' ' + author.last_name,
+                "author": q.id_autor.first_name + ' ' + q.id_autor.last_name
+
             })
 
     return JsonResponse(data, safe=False)
-"""
+
+
+@login_required
+@user_passes_test(is_editor)
+def editor_article_reviewed_list_request(request):
+    data = []
+    for q in Article.objects.all():
+        if q.status == "reviewed":
+            data.append({
+                "id": q.pk,
+                "title": q.name,
+                "text": q.text[:100] + "...",
+                "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
+                "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
+                "reviewer": q.id_reviewer.first_name + ' ' + q.id_reviewer.last_name
+            })
+
+    return JsonResponse(data, safe=False)
+
