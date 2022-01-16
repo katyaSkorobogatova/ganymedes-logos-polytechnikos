@@ -33,7 +33,10 @@ from logos_app.views import (
     article_edit,
     new_review_view,
     reviewer_article_list_request,
-    review_request
+    review_request,
+    editor_article_reviewed_list_request,
+    editor_article_inreview_list_request,
+    set_reviewer
 )
 
 urlpatterns = [
@@ -54,6 +57,9 @@ urlpatterns = [
     path('myarticles/load', author_article_list_request, name="author_articles_load"),
     path('myarticles/<int:id>/toreview', to_review, name="to_review"),
     path('article/<int:id>/review', new_review_view, name="new_review"),
-    path('toreview/load', reviewer_article_list_request, name="new_review"),
-    path('review/<int:id>/', review_request, name="new_review"),
+    path('toreview/load/', reviewer_article_list_request, name="reviewer_article_list"),
+    path('review/<int:id>/', review_request, name="review_request"),
+    path('reviewed/load', editor_article_reviewed_list_request, name="reviewed"),
+    path('pending/load', editor_article_inreview_list_request, name="pending"),
+    path('setreviewer/', set_reviewer, name="setreviewer"),
 ]
