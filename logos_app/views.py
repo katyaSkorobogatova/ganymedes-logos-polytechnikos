@@ -357,3 +357,16 @@ def editor_rewiewer_list_request(request):
 
     return JsonResponse(data, safe=False)
 
+
+@login_required
+@user_passes_test(is_editor)
+def to_draft(request, id):
+    try:
+        article_instance = Article.objects.get(pk=id)
+        article_instance.status = "draft"
+        article_instance.save()
+        return redirect('pending')
+
+    except Article.DoesNotExist:
+        raise Http404
+
