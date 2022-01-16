@@ -27,6 +27,23 @@ async function renderArticles(url, parent) {
                                 <br />
                                 <span class="main__articleDate">${parsedData[0].fields.date_of_create}</span>
                             </div>
+                            <hr />
+                            <div class="main__articleReviewWrapper">
+                                <div class="main__articleReviewer">Reviewer is here</div>
+                                <div class="main__articleEvaluations">                                
+                                    <div class="main__articleEvaluation">Relevantnost: 5</div>
+                                    <div class="main__articleEvaluation">Zajímavost: 4</div>
+                                    <div class="main__articleEvaluation">Užitnost: 2</div>
+                                    <div class="main__articleEvaluation">Originalita: 5</div>
+                                    <div class="main__articleEvaluation">Profesionální úroveň: 5</div>
+                                    <div class="main__articleEvaluation">Jazyková úroveň: 5</div>
+                                    <div class="main__articleEvaluation">Stylistická úroveň: 5</div>
+                                </div>
+                                <div class="main__articleEvaluation-comment">
+                                    <div class="main__articleEvaluation-commentLabel">Komentář: </div>
+                                    <div class="main__articleEvaluation-commentText">Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc</div>
+                                </div>
+                            </div>
                         </div>`;
 }
 
