@@ -63,7 +63,7 @@ urlpatterns = [
     path('review/<int:id>/', review_request, name="review_request"),
     path('reviewed/load', editor_article_reviewed_list_request, name="reviewed_list"),
     path('reviewed/', editor_article_reviewed_list_view, name="reviewed"),
-    path('inreview/load', editor_article_inreview_list_request, name="inreview_list"),
-    path('inreview/', editor_article_inreview_list_view, name="pending"),
+    path('pending/load', editor_article_inreview_list_request, name="pending_list"),
+    path('pending/', editor_article_inreview_list_view, name="pending"),
     path('setreviewer/', set_reviewer, name="setreviewer"),
 ]

@@ -78,6 +78,22 @@
                     </div>
                 </li>
                 {% endif %}
+                {% if request.user|has_group:"editor" %}
+                <li class="nav__item">
+                    <div class="sidebarItem">
+                        <a class="sidebarItem__link" href="{% url 'reviewed' %}">Reviewed articles</a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
+                                alt='icon' /></a>
+                    </div>
+                </li>
+                <li class="nav__item">
+                    <div class="sidebarItem">
+                        <a class="sidebarItem__link" href="{% url 'pending' %}">Articles pending for review</a>
+                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
+                                alt='icon' /></a>
+                    </div>
+                </li>
+                {% endif %}
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="#">Help desk</a>
