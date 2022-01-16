@@ -307,8 +307,8 @@ def editor_article_inreview_list_request(request):
                 "title": q.name,
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
-                "author": q.id_autor.first_name + ' ' + q.id_autor.last_name
-
+                "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
+                "id_reviewer": q.id_reviewer
             })
 
     return JsonResponse(data, safe=False)
