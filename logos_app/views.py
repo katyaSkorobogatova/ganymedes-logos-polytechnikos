@@ -341,3 +341,19 @@ def editor_article_reviewed_list_request(request):
 @user_passes_test(is_editor)
 def editor_article_reviewed_list_view(request):
     return render(request, "reviewed.html", {})
+
+@login_required
+@user_passes_test(is_editor)
+def editor_rewiewer_list_request(request):
+    data = []
+
+    for q in User.objects.all():
+        if is_reviewer(q):
+            data.append({
+                "id": q.pk,
+                "name":  q.first_name + ' ' + q.last_name
+
+            })
+
+    return JsonResponse(data, safe=False)
+
