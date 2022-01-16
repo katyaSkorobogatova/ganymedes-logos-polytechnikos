@@ -1,5 +1,6 @@
 const newsContainer = document.querySelector('.main__newsContainer');
-const url = 'load';
+const articleUrl = 'load';
+const reviewUrl = '/review';
 
 async function getArticles(url) {
     try {
@@ -11,40 +12,49 @@ async function getArticles(url) {
 }
 
 async function renderArticles(url, parent) {
-    let article = await getArticles(url);
-    let parsedData = JSON.parse(article);
+    let article = await getArticles(articleUrl);
+    let parsedArticleData = JSON.parse(article);
+    let parsedReviewData;
+    if (parsedArticleData[0].fields.id_review !== null) {
+        let review = await getArticles(`${reviewUrl}/${parsedArticleData[0].fields.id_review}`);
+        parsedReviewData = JSON.parse(review);
+    } else {
+        parsedReviewData = null;
+    }
     parent.innerHTML = `<div class="main__article">
                             <div class="main__articleUpperPart">
                                 <div class="main__articleTitleWrapper">
-                                    <span class="main__articleTitle">${parsedData[0].fields.name}</span>
-                                    <span class="main__articleTitle">Článek # ${parsedData[0].pk}</span>
+                                    <span class="main__articleTitle">${parsedArticleData[0].fields.name}</span>
+                                    <span class="main__articleTitle">Článek # ${parsedArticleData[0].pk}</span>
                                 </div>
                                 <br />
-                                <span class="main__articleAuthor">${parsedData[0].fields.autor}</span>
+                                <span class="main__articleAuthor">${parsedArticleData[0].fields.autor}</span>
                             </div>
                             <div class="main__articleLowerPart">
-                                <div class="main__articleText">${parsedData[0].fields.text}</div>
+                                <div class="main__articleText">${parsedArticleData[0].fields.text}</div>
                                 <br />
-                                <span class="main__articleDate">${parsedData[0].fields.date_of_create}</span>
+                                <span class="main__articleDate">${parsedArticleData[0].fields.date_of_create}</span>
                             </div>
-                            <hr />
-                            <div class="main__articleReviewWrapper">
-                                <div class="main__articleReviewer">Reviewer is here</div>
-                                <div class="main__articleEvaluations">                                
-                                    <div class="main__articleEvaluation">Relevantnost: 5</div>
-                                    <div class="main__articleEvaluation">Zajímavost: 4</div>
-                                    <div class="main__articleEvaluation">Užitnost: 2</div>
-                                    <div class="main__articleEvaluation">Originalita: 5</div>
-                                    <div class="main__articleEvaluation">Profesionální úroveň: 5</div>
-                                    <div class="main__articleEvaluation">Jazyková úroveň: 5</div>
-                                    <div class="main__articleEvaluation">Stylistická úroveň: 5</div>
-                                </div>
-                                <div class="main__articleEvaluation-comment">
-                                    <div class="main__articleEvaluation-commentLabel">Komentář: </div>
-                                    <div class="main__articleEvaluation-commentText">Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc Komentář recenzenta 123 abc</div>
-                                </div>
-                            </div>
+                            ${parsedReviewData !== null
+                                ?   `<hr />
+                                    <div class="main__articleReviewWrapper">
+                                        <div class="main__articleReviewer">${parsedReviewData[0].fields.reviewer}</div>
+                                        <div class="main__articleEvaluations">                                
+                                            <div class="main__articleEvaluation">Relevantnost: ${parsedReviewData[0].fields.relevancy}</div>
+                                            <div class="main__articleEvaluation">Zajímavost: ${parsedReviewData[0].fields.interesting}</div>
+                                            <div class="main__articleEvaluation">Užitnost: ${parsedReviewData[0].fields.usefulness}</div>
+                                            <div class="main__articleEvaluation">Originalita: ${parsedReviewData[0].fields.originality}</div>
+                                            <div class="main__articleEvaluation">Profesionální úroveň: ${parsedReviewData[0].fields.proffesional_level}</div>
+                                            <div class="main__articleEvaluation">Jazyková úroveň: ${parsedReviewData[0].fields.language_level}</div>
+                                            <div class="main__articleEvaluation">Stylistická úroveň: ${parsedReviewData[0].fields.stylistic_level}</div>
+                                        </div>
+                                        <div class="main__articleEvaluation-comment">
+                                            <div class="main__articleEvaluation-commentLabel">Komentář: </div>
+                                            <div class="main__articleEvaluation-commentText">${parsedReviewData[0].fields.commentary}</div>
+                                        </div>
+                                    </div>`
+                                :   `<div></div>`}
                         </div>`;
 }
 
-renderArticles(url, newsContainer);
+renderArticles(articleUrl, newsContainer);
