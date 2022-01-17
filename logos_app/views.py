@@ -345,7 +345,7 @@ def editor_article_reviewed_list_request(request):
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
                 "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
                 "reviewer": q.id_reviewer.first_name + ' ' + q.id_reviewer.last_name,
-                "magazine": q.magazine_number
+                "magazine": q.magazine_number.pk_magazine
             })
 
     return JsonResponse(data, safe=False)
@@ -427,7 +427,7 @@ def publish_magazine(request, id):
 def set_article_to_magazine(request):
     try:
 
-        magazine = Magazine.objects.get(id=request.GET['magazine'])
+        magazine = Magazine.objects.get(pk_magazine=request.GET['magazine'])
         article = Article.objects.get(pk=request.GET['article'])
         article.magazine_number = magazine
         article.save()
