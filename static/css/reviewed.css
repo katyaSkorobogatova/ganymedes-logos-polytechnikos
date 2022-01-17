@@ -1,0 +1,14 @@
+.main__articleButtonsContainer {
+    align-items: center;
+}
+
+.main__articleButtonsContainer-left {
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__articleButtonsContainer-dropdown form {
+    flex-direction: row;
+}
