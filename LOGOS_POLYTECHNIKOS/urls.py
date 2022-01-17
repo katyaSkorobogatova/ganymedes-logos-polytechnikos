@@ -81,11 +81,12 @@ urlpatterns = [
     path('pending/<int:id>/todraft', to_draft, name="todraft"),
     path('pending/setreviewer', set_reviewer, name="setreviewer"),
     path('pending/reviewerload', editor_reviewer_list_request, name="reviewerload"),
-    path('help/', help_desk, name="help"),
     path('notpublished/<int:id>/edit', magazine_edit, name="magazine_edit"),
     path('notpublished/<int:id>/delete', magazine_delete, name="magazine_delete"),
     path('notpublished/load', editor_magazine_list_request, name="magazine_list"),
     path('notpublished/<int:id>/publish', publish_magazine, name="magazine_publish"),
     path('notpublished/', editor_magazine_list_view, name="magazine"),
     path('notpublished/create', magazine_create, name="magazine_create"),
+    path('helpdesk/', help_desk, name="helpdesk"),
+
 ]
