@@ -41,7 +41,15 @@ from logos_app.views import (
     editor_article_reviewed_list_view,
     editor_reviewer_list_request,
     to_draft,
-    help_desk
+    help_desk,
+    magazine_edit,
+    magazine_delete,
+    magazine_create,
+    editor_magazine_list_request,
+    editor_magazine_list_view,
+    publish_magazine,
+    set_article_to_magazine,
+    reviewer_article_list_view
 )
 
 urlpatterns = [
@@ -61,15 +69,23 @@ urlpatterns = [
     path('myarticles/', articles_my, name="articles_my"),
     path('myarticles/load', author_article_list_request, name="author_articles_load"),
     path('myarticles/<int:id>/toreview', to_review, name="to_review"),
-    path('article/<int:id>/review', new_review_view, name="new_review"),
+    path('toreview/<int:id>/review', new_review_view, name="new_review"),
     path('toreview/load/', reviewer_article_list_request, name="reviewer_article_list"),
+    path('toreview/', reviewer_article_list_view, name="reviewer_article_view"),
     path('review/<int:id>/', review_request, name="review_request"),
     path('reviewed/load', editor_article_reviewed_list_request, name="reviewed_list"),
     path('reviewed/', editor_article_reviewed_list_view, name="reviewed"),
+    path('reviewed/set', set_article_to_magazine, name="article_set"),
     path('pending/load', editor_article_inreview_list_request, name="pending_list"),
     path('pending/', editor_article_inreview_list_view, name="pending"),
     path('pending/<int:id>/todraft', to_draft, name="todraft"),
     path('pending/setreviewer', set_reviewer, name="setreviewer"),
     path('pending/reviewerload', editor_reviewer_list_request, name="reviewerload"),
     path('help/', help_desk, name="help"),
+    path('notpublished/<int:id>/edit', magazine_edit, name="magazine_edit"),
+    path('notpublished/<int:id>/delete', magazine_delete, name="magazine_delete"),
+    path('notpublished/load', editor_magazine_list_request, name="magazine_list"),
+    path('notpublished/<int:id>/publish', publish_magazine, name="magazine_publish"),
+    path('notpublished/', editor_magazine_list_view, name="magazine"),
+    path('notpublished/create', magazine_create, name="magazine_create"),
 ]

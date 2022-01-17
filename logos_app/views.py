@@ -251,6 +251,10 @@ def reviewer_article_list_request(request):
 
     return JsonResponse(data, safe=False)
 
+@login_required
+@user_passes_test(is_reviewer)
+def reviewer_article_list_view(request):
+    return render(request, "toreview.html", {})
 
 @login_required
 @user_passes_test(is_reviewer)
@@ -430,17 +434,54 @@ def set_article_to_magazine(request):
 
 @login_required
 @user_passes_test(is_editor)
-def create_magazine(request):
+def magazine_create(request):
     if request.method == 'POST':
-        user = User.objects.get(id=request.user.id)
-        article_instance = Article(id_autor=user, name=request.POST['name'],
-                                   text=request.POST['text'], status="draft",
-                                   date_of_create=datetime.now(), edited=0)
-        article_instance.save()
-        return redirect('/article/{}/'.format(article_instance.pk_article))
+
+        magazine_instance = Magazine(magazine_number=request.POST['number'],
+                                     max_number_of_magazine=request.POST['max_articles'], published=0 )
+        magazine_instance.save()
+        return redirect('magazines')
 
     else:
-        return render(request, "new.html", {})
+        return render(request, "create_magazine.html", {})
+
+
+@login_required
+@user_passes_test(is_editor)
+def magazine_delete(request, id):
+    try:
+        magazine_instance = Magazine.objects.get(pk_magazine=id)
+        if magazine_instance.published == 0:
+            for q in Article.objects.all():
+                if q.magazine_number == magazine_instance:
+                    q.magazine_number = None
+            magazine_instance.delete()
+    except Article.DoesNotExist:
+        raise Http404
+
+
+@login_required
+@user_passes_test(is_editor)
+def magazine_edit(request, id):
+    try:
+
+        magazine_instance = Magazine.objects.get(pk_magazine=id)
+        if magazine_instance.published == 0:
+            if request.method == 'POST':
+                magazine_instance.magazine_number = request.POST['number']
+                magazine_instance.max_number_of_magazine = request.POST['max_articles']
+                magazine_instance.save()
+
+                return redirect('magazines')
+
+            else:
+                return render(request, "editmag.html", {})
+        else:
+            raise Http404
+    except Article.DoesNotExist:
+        raise Http404
+
 
 def help_desk(request):
     return render(request, "helpdesk.html", {})
+
