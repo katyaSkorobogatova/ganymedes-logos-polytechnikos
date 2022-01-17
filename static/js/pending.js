@@ -44,7 +44,7 @@ async function renderArticles(url, parent) {
                                         <div class="main__articleButtonsContainer">
                                             <div class="main__articleButtonsContainer-left">
                                                 <div class="main__articleButton">
-                                                    <a href="/article/${article.id}" class="main__articleButtonLink">Číst více</a>
+                                                    <a href="/article/${article.id}" class="main__articleButtonLink" target="_blank">Číst více</a>
                                                 </div>
                                                 <div class="main__articleButton">
                                                     <a href="/article/${article.id}/edit" class="main__articleButtonLink">Upravit</a>
