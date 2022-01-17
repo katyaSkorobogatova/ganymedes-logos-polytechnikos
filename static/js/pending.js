@@ -11,18 +11,21 @@ async function getArticles(url) {
     }
 }
 
-function generateReviewers(reviewersArr) {
+const generateReviewers = reviewersArr => {
     let html = '<option value=""></option>';
 
-    reviewersArr.forEach(reviewer => html += `<option value="${reviewer.name}">${reviewer.name}</option>`)
+    reviewersArr.forEach(reviewer => html += `<option class="notBlank" value="${reviewer.name}" data="${reviewer.id}">${reviewer.name}</option>`)
 
     return html;
+}
+
+const fetchArticleAndReviewer = (articleId, reviewerId) => {
+    fetch(`setreviewer?reviewer=${articleId}&reviewerId=${reviewerId}`);
 }
 
 async function renderArticles(url, parent) {
     let articles = await getArticles(url);
     let reviewers = await getArticles(reviewersUrl);
-    console.log(reviewers);
     let html = '';
     articles.forEach(article => {
         let htmlSegment = `<div class="main__article">
@@ -58,7 +61,7 @@ async function renderArticles(url, parent) {
                                             <div class="main__articleButtonsContainer-dropdown">
                                                 <form action="">
                                                     <label for="reviewer">Zvolte si reviewera:</label>
-                                                    <select id="reviewer" name="reviewer">
+                                                    <select id="reviewer" name="reviewer" data="${article.id}">
                                                         ${generateReviewers(reviewers)}
                                                     </select>
                                                 </form>
@@ -72,6 +75,13 @@ async function renderArticles(url, parent) {
     });
 
     parent.innerHTML = html;
+
+    const reviewersOptions = document.querySelectorAll('.main__articleButtonsContainer-dropdown form select option.notBlank');
+    reviewersOptions.forEach(option => addEventListener('input', () => {
+        let articleID = option.parentNode.getAttribute('data');
+        let reviewerID = option.getAttribute('data');
+        fetchArticleAndReviewer(articleID, reviewerID);
+    }));
 }
 
 renderArticles(url, newsContainer);
