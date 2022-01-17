@@ -20,7 +20,7 @@ const generateReviewers = reviewersArr => {
 }
 
 const fetchArticleAndReviewer = (articleId, reviewerId) => {
-    fetch(`setreviewer?reviewer=${articleId}&article=${reviewerId}`);
+    fetch(`setreviewer?reviewer=${reviewerId}&article=${articleId}`);
 }
 
 async function renderArticles(url, parent) {
@@ -84,7 +84,7 @@ async function renderArticles(url, parent) {
 
     reviewersOptions.forEach(option => addEventListener('input', () => {
         let articleID = option.parentNode.getAttribute('data');
-        let reviewerID = option.getAttribute('idReviewer');
+        let reviewerID = option.getAttribute('data');
 
         fetchArticleAndReviewer(articleID, reviewerID);
     }));
