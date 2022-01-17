@@ -310,13 +310,17 @@ def editor_article_inreview_list_request(request):
     data = []
     for q in Article.objects.all():
         if q.status == "in review":
+            if q.id_reviewer is not None:
+                pk = q.id_reviewer
+            else:
+                pk = None
             data.append({
                 "id": q.pk,
                 "title": q.name,
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
                 "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
-                "id_reviewer": q.id_reviewer.pk
+                "id_reviewer": pk
             })
 
     return JsonResponse(data, safe=False)
