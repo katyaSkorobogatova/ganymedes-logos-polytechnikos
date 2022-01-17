@@ -42,9 +42,7 @@ def article_view(request, id):
         article_instance = Article.objects.get(pk=id)
         if article_instance.status == "published" or article_instance.id_autor.pk == request.user.id:
             return render(request, "article.html", {})
-        elif article_instance.status == "in review" and is_reviewer(request.user):
-            return render(request, "article_review.html", {})
-        elif article_instance.status == "reviewed" and (is_reviewer(request.user) or is_editor(request.user)):
+        elif (article_instance.status == "reviewed" or article_instance.status == "in review") and (is_reviewer(request.user) or is_editor(request.user)):
             return render(request, "article.html", {})
         else:
             raise Http404
@@ -144,13 +142,17 @@ def article_new(request):
 
 
 @login_required
-@user_passes_test(is_author)
 def article_delete(request, id):
     try:
         article_instance = Article.objects.get(pk=id)
-        if article_instance.id_autor.pk == request.user.id and article_instance.status == "draft":
+        if article_instance.id_autor.pk == request.user.id and article_instance.status == "draft" or \
+                (article_instance.status == "in review" and is_editor(request.user)):
             article_instance.delete()
-            return redirect('articles_my')
+            if is_editor(request.user):
+                return redirect('pending')
+            else:
+                return redirect('articles_my')
+
         else:
             raise Http404
     except Article.DoesNotExist:
@@ -207,12 +209,11 @@ def to_review(request, id):
 
 
 @login_required
-@user_passes_test(is_author)
 def article_edit(request, id):
     try:
 
         article_instance = Article.objects.get(pk=id)
-        if (article_instance.id_autor.pk == request.user.id and article_instance.status == "draft") and\
+        if (article_instance.id_autor.pk == request.user.id and article_instance.status == "draft") or\
                 (is_editor(request.user) and article_instance.status == "in review"):
             if request.method == 'POST':
                 article_instance.name = request.POST.get('name')
@@ -220,7 +221,10 @@ def article_edit(request, id):
                 if is_editor(request.user):
                     article_instance.id_editor = request.user
                 article_instance.save()
-                return redirect('/article/{}/'.format(article_instance.pk_article))
+                if is_editor(request.user):
+                    return redirect('pending')
+                else:
+                    return redirect('/article/{}/'.format(article_instance.pk_article))
             else:
                 return render(request, "edit.html", {})
         else:
