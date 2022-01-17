@@ -344,7 +344,8 @@ def editor_article_reviewed_list_request(request):
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
                 "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
-                "reviewer": q.id_reviewer.first_name + ' ' + q.id_reviewer.last_name
+                "reviewer": q.id_reviewer.first_name + ' ' + q.id_reviewer.last_name,
+                "magazine": q.magazine_number
             })
 
     return JsonResponse(data, safe=False)
