@@ -66,14 +66,14 @@
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="{% url 'article_new' %}">Přidat článek</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
+                        <a href="{% url 'article_new' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
                 <li class="nav__item">
                     <div class="sidebarItem">
                         <a class="sidebarItem__link" href="{% url 'articles_my' %}">Moje články</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
+                        <a href="{% url 'articles_my' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
@@ -81,23 +81,23 @@
                 {% if request.user|has_group:"editor" %}
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="{% url 'reviewed' %}">Reviewed articles</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
+                        <a class="sidebarItem__link" href="{% url 'reviewed' %}">Recenzováné články</a>
+                        <a href="{% url 'reviewed' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="{% url 'pending' %}">Articles pending for review</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
+                        <a class="sidebarItem__link" href="{% url 'pending' %}">Články čekající na review</a>
+                        <a href="{% url 'pending' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarDialogs.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
                 {% endif %}
                 <li class="nav__item">
                     <div class="sidebarItem">
-                        <a class="sidebarItem__link" href="#">Help desk</a>
-                        <a href="#"><img class="sidebarItem__image" src="{% static 'images/sidebarSettings.svg' %}"
+                        <a class="sidebarItem__link" href="{% url 'helpdesk' %}">Help desk</a>
+                        <a href="{% url 'helpdesk' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarSettings.svg' %}"
                                 alt='icon' /></a>
                     </div>
                 </li>
@@ -107,7 +107,7 @@
         {% endblock content %}
 
         <footer class="footer">
-            <span class="name">VŠPJ Logos Polytechnikos by Team Ganymedes</span>
+            <span class="name">Elektronický časopis by Team Ganymedes</span>
             <hr style="width: 90%" />
             <div class="iconContainer">
                 <a href="https://github.com/katyaSkorobogatova/ganymedes-logos-polytechnikos" target="__blank">
