@@ -84,7 +84,7 @@ async function renderArticles(url, parent) {
 
     reviewersOptions.forEach(option => addEventListener('input', () => {
         let articleID = option.parentNode.getAttribute('data');
-        let reviewerID = option.getAttribute('data');
+        let reviewerID = option.getAttribute('idReviewer');
 
         fetchArticleAndReviewer(articleID, reviewerID);
     }));
