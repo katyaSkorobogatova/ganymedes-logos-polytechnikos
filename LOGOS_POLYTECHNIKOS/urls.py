@@ -85,7 +85,7 @@ urlpatterns = [
     path('notpublished/<int:id>/delete', magazine_delete, name="magazine_delete"),          # удаляет журнал с id
     path('notpublished/load', editor_magazine_list_request, name="magazine_list"),          # возвращает json с нопубликоваными журналами
     path('notpublished/<int:id>/publish', publish_magazine, name="magazine_publish"),       # публекует журнал с id
-    path('notpublished/', editor_magazine_list_view, name="magazine"),                      # html страница с нопубликоваными журналами
+    path('notpublished/', editor_magazine_list_view, name="magazines"),                      # html страница с нопубликоваными журналами
     path('notpublished/create', magazine_create, name="magazine_create"),                   # открывает форму для создания нового журнала, POST запрос сохраняет журнал
     path('helpdesk/', help_desk, name="helpdesk"),
 
