@@ -1,0 +1,40 @@
+.main__articleButtonsContainer {
+    width: 100%;
+}
+
+.main__articleButtonsContainer-left,
+.main__articleButtonsContainer-right {
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__articleButton,
+.main__articleButton:nth-last-child(1) {
+    margin: 0;
+}
+
+.main__articleButtonsContainer-dropdown form {
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.main__articleButtonsContainer-dropdown form label {
+    text-align: center;
+    color: #28282f;
+    font-weight: 400;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+}
+
+.main__articleButtonsContainer-dropdown form select {
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #28282f;
+    font-family: "Roboto", sans-serif;
+}
