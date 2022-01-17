@@ -374,3 +374,73 @@ def to_draft(request, id):
     except Article.DoesNotExist:
         raise Http404
 
+
+@login_required
+@user_passes_test(is_editor)
+def editor_magazine_list_request(request):
+    data = []
+    for q in Magazine.objects.all():
+        if q.published == 0:
+            data.append({
+                "id": q.pk,
+                "magazine_number": q.magazine_number,
+                "max_articles": q.max_number_of_magazine
+            })
+
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+@user_passes_test(is_editor)
+def editor_magazine_list_view(request):
+    return render(request, "magazines.html", {})
+
+
+@login_required
+@user_passes_test(is_editor)
+def publish_magazine(request, id):
+    try:
+        magazine_instance = Magazine.objects.get(pk=id)
+        magazine_instance.published = 1
+        magazine_instance.release_date = datetime.now()
+        magazine_instance.save()
+        for q in Article.objects.all():
+            if q.magazine_number == magazine_instance and q.status == "reviewed":
+                q.status = "published"
+        return redirect('magazines')
+
+    except Magazine.DoesNotExist:
+        raise Http404
+
+
+@login_required
+@user_passes_test(is_editor)
+def set_article_to_magazine(request):
+    try:
+
+        magazine = Magazine.objects.get(id=request.GET['magazine'])
+        article = Article.objects.get(pk=request.GET['article'])
+        article.magazine_number = magazine
+        article.save()
+    except Article.DoesNotExist:
+        raise Http404
+    except Magazine.DoesNotExist:
+        raise Http404
+
+
+@login_required
+@user_passes_test(is_editor)
+def create_magazine(request):
+    if request.method == 'POST':
+        user = User.objects.get(id=request.user.id)
+        article_instance = Article(id_autor=user, name=request.POST['name'],
+                                   text=request.POST['text'], status="draft",
+                                   date_of_create=datetime.now(), edited=0)
+        article_instance.save()
+        return redirect('/article/{}/'.format(article_instance.pk_article))
+
+    else:
+        return render(request, "new.html", {})
+
+def help_desk(request):
+    return render(request, "helpdesk.html", {})
