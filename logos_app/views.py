@@ -288,12 +288,12 @@ def new_review_view(request, id):
 @user_passes_test(is_editor)
 def set_reviewer(request):
     try:
-        if request.method == 'POST':
-            user = User.objects.get(id=request.POST['reviewer'])
-            article = Article.objects.get(pk=request.POST['article'])
-            article.id_reviewer = user
-            article.id_editor = request.user
-            article.save()
+
+        user = User.objects.get(id=request.GET['reviewer'])
+        article = Article.objects.get(pk=request.GET['article'])
+        article.id_reviewer = user
+        article.id_editor = request.user
+        article.save()
     except Article.DoesNotExist:
         raise Http404
     except User.DoesNotExist:

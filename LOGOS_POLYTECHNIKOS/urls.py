@@ -68,6 +68,6 @@ urlpatterns = [
     path('pending/load', editor_article_inreview_list_request, name="pending_list"),
     path('pending/', editor_article_inreview_list_view, name="pending"),
     path('pending/<int:id>/todraft', to_draft, name="todraft"),
-    path('pending/setreviewer/', set_reviewer, name="setreviewer"),
+    path('pending/setreviewer', set_reviewer, name="setreviewer"),
     path('pending/reviewerload', editor_reviewer_list_request, name="reviewerload"),
 ]
