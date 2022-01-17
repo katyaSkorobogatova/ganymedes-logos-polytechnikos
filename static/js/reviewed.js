@@ -1,5 +1,6 @@
 const newsContainer = document.querySelector('.main__newsContainer');
-const articlesUrl = 'load';
+const url = 'load';
+const magazinesUrl = '/notpublished/load';
 
 async function getArticles(url) {
     try {
@@ -10,8 +11,21 @@ async function getArticles(url) {
     }
 }
 
+const generateMagazines = magazinesArr => {
+    let html = '<option value=""></option>';
+
+    magazinesArr.forEach(magazine => html += `<option class="notBlank" value="${magazine.name}" data="${magazine.id}">${magazine.name}</option>`)
+
+    return html;
+}
+
+const fetchArticleAndReviewer = (articleId, reviewerId) => {
+    fetch(`setreviewer?reviewer=${reviewerId}&article=${articleId}`);
+}
+
 async function renderArticles(url, parent) {
     let articles = await getArticles(url);
+    let magazines = await getArticles(magazinesUrl);
     let html = '';
     articles.forEach(article => {
         let htmlSegment = `<div class="main__article">
@@ -28,8 +42,18 @@ async function renderArticles(url, parent) {
                                     <div class="main__articleDateAndButtonsContainer">
                                         <span class="main__articleDate">${article.date_of_create}</span>
                                         <div class="main__articleButtonsContainer">
-                                            <div class="main__articleButton">
-                                                <a href="/article/${article.id}" class="main__articleButtonLink">Číst více</a>
+                                            <div class="main__articleButtonsContainer-left">
+                                                <div class="main__articleButton">
+                                                    <a href="/article/${article.id}" class="main__articleButtonLink">Číst více</a>
+                                                </div>
+                                            </div>
+                                            <div class="main__articleButtonsContainer-dropdown">
+                                                <form action="">
+                                                    <label for="reviewer">Zvolte si oponenta:</label>
+                                                    <select id="reviewer" name="reviewer" data="${article.id}" idReviewer="${article.id_reviewer}">
+                                                        ${generateMagazines(magazines)}
+                                                    </select>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -40,6 +64,19 @@ async function renderArticles(url, parent) {
     });
 
     parent.innerHTML = html;
+
+    const reviewersOptions = document.querySelectorAll('.main__articleButtonsContainer-dropdown form select option.notBlank');
+
+    reviewersOptions.forEach(option => {
+        if (option.parentNode.getAttribute('idReviewer') === option.getAttribute('data')) option.setAttribute('selected', 'selected');
+    });
+
+    reviewersOptions.forEach(option => addEventListener('input', () => {
+        let articleID = option.parentNode.getAttribute('data');
+        let reviewerID = option.getAttribute('data');
+
+        fetchArticleAndReviewer(articleID, reviewerID);
+    }));
 }
 
-renderArticles(articlesUrl, newsContainer);
+renderArticles(url, newsContainer);
