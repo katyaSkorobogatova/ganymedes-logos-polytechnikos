@@ -20,7 +20,7 @@ const generateReviewers = reviewersArr => {
 }
 
 const fetchArticleAndReviewer = (articleId, reviewerId) => {
-    fetch(`setreviewer?reviewer=${articleId}&reviewerId=${reviewerId}`);
+    fetch(`setreviewer?reviewer=${articleId}&article=${reviewerId}`);
 }
 
 async function renderArticles(url, parent) {
@@ -60,8 +60,8 @@ async function renderArticles(url, parent) {
                                             </div>
                                             <div class="main__articleButtonsContainer-dropdown">
                                                 <form action="">
-                                                    <label for="reviewer">Zvolte si reviewera:</label>
-                                                    <select id="reviewer" name="reviewer" data="${article.id}">
+                                                    <label for="reviewer">Zvolte si oponenta:</label>
+                                                    <select id="reviewer" name="reviewer" data="${article.id}" idReviewer="${article.id_reviewer}">
                                                         ${generateReviewers(reviewers)}
                                                     </select>
                                                 </form>
@@ -77,9 +77,15 @@ async function renderArticles(url, parent) {
     parent.innerHTML = html;
 
     const reviewersOptions = document.querySelectorAll('.main__articleButtonsContainer-dropdown form select option.notBlank');
+
+    reviewersOptions.forEach(option => {
+        if (option.parentNode.getAttribute('idReviewer') === option.getAttribute('data')) option.setAttribute('selected', 'selected');
+    });
+
     reviewersOptions.forEach(option => addEventListener('input', () => {
         let articleID = option.parentNode.getAttribute('data');
         let reviewerID = option.getAttribute('data');
+
         fetchArticleAndReviewer(articleID, reviewerID);
     }));
 }
