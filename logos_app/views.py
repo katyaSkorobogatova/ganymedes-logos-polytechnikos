@@ -338,6 +338,10 @@ def editor_article_reviewed_list_request(request):
     data = []
     for q in Article.objects.all():
         if q.status == "reviewed":
+            if q.magazine_number is not None:
+                pk = q.magazine_number.pk_magazine
+            else:
+                pk = None
             data.append({
                 "id": q.pk,
                 "title": q.name,
@@ -345,7 +349,7 @@ def editor_article_reviewed_list_request(request):
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
                 "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
                 "reviewer": q.id_reviewer.first_name + ' ' + q.id_reviewer.last_name,
-                "magazine": q.magazine_number.pk_magazine
+                "magazine": pk
             })
 
     return JsonResponse(data, safe=False)
