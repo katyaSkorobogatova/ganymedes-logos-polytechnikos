@@ -14,13 +14,13 @@ async function getArticles(url) {
 const generateMagazines = magazinesArr => {
     let html = '<option value=""></option>';
 
-    magazinesArr.forEach(magazine => html += `<option class="notBlank" value="${magazine.name}" data="${magazine.id}">${magazine.name}</option>`)
+    magazinesArr.forEach(magazine => html += `<option class="notBlank" value="${magazine.magazine_number}" data="${magazine.id}">${magazine.magazine_number}</option>`)
 
     return html;
 }
 
-const fetchArticleAndReviewer = (articleId, reviewerId) => {
-    fetch(`setreviewer?reviewer=${reviewerId}&article=${articleId}`);
+const fetchArticleAndMagazine = (articleId, magazineId) => {
+    fetch(`set?magazine=${magazineId}&article=${articleId}`);
 }
 
 async function renderArticles(url, parent) {
@@ -44,13 +44,13 @@ async function renderArticles(url, parent) {
                                         <div class="main__articleButtonsContainer">
                                             <div class="main__articleButtonsContainer-left">
                                                 <div class="main__articleButton">
-                                                    <a href="/article/${article.id}" class="main__articleButtonLink">Číst více</a>
+                                                    <a href="/article/${article.id}" class="main__articleButtonLink" target="_blank">Číst více</a>
                                                 </div>
                                             </div>
                                             <div class="main__articleButtonsContainer-dropdown">
                                                 <form action="">
-                                                    <label for="reviewer">Zvolte si oponenta:</label>
-                                                    <select id="reviewer" name="reviewer" data="${article.id}" idReviewer="${article.id_reviewer}">
+                                                    <label for="magazine">Zvolte si číslo časopisu:</label>
+                                                    <select id="magazine" name="magazine" data="${article.id}" numberMagazine="${article.magazine}">
                                                         ${generateMagazines(magazines)}
                                                     </select>
                                                 </form>
@@ -65,17 +65,17 @@ async function renderArticles(url, parent) {
 
     parent.innerHTML = html;
 
-    const reviewersOptions = document.querySelectorAll('.main__articleButtonsContainer-dropdown form select option.notBlank');
+    const magazinesOptions = document.querySelectorAll('.main__articleButtonsContainer-dropdown form select option.notBlank');
 
-    reviewersOptions.forEach(option => {
-        if (option.parentNode.getAttribute('idReviewer') === option.getAttribute('data')) option.setAttribute('selected', 'selected');
+    magazinesOptions.forEach(option => {
+        if (option.parentNode.getAttribute('numberMagazine') === option.getAttribute('data')) option.setAttribute('selected', 'selected');
     });
 
-    reviewersOptions.forEach(option => addEventListener('input', () => {
+    magazinesOptions.forEach(option => addEventListener('input', () => {
         let articleID = option.parentNode.getAttribute('data');
-        let reviewerID = option.getAttribute('data');
+        let magazineID = option.getAttribute('data');
 
-        fetchArticleAndReviewer(articleID, reviewerID);
+        fetchArticleAndMagazine(articleID, magazineID);
     }));
 }
 
