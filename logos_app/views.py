@@ -312,7 +312,7 @@ def editor_article_inreview_list_request(request):
                 "text": q.text[:100] + "...",
                 "date_of_create": q.date_of_create.strftime("%d-%m-%Y"),
                 "author": q.id_autor.first_name + ' ' + q.id_autor.last_name,
-                "id_reviewer": q.id_reviewer
+                "id_reviewer": q.id_reviewer.pk
             })
 
     return JsonResponse(data, safe=False)
