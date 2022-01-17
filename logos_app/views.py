@@ -311,7 +311,7 @@ def editor_article_inreview_list_request(request):
     for q in Article.objects.all():
         if q.status == "in review":
             if q.id_reviewer is not None:
-                pk = q.id_reviewer
+                pk = q.id_reviewer.pk
             else:
                 pk = None
             data.append({
