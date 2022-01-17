@@ -12,7 +12,7 @@ async function getArticles(url) {
 }
 
 function generateReviewers(reviewersArr) {
-    let html = '';
+    let html = '<option value=""></option>';
 
     reviewersArr.forEach(reviewer => html += `<option value="${reviewer.name}">${reviewer.name}</option>`)
 
