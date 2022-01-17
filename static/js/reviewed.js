@@ -1,5 +1,5 @@
 const newsContainer = document.querySelector('.main__newsContainer');
-const url = 'load';
+const articlesUrl = 'load';
 
 async function getArticles(url) {
     try {
@@ -42,4 +42,4 @@ async function renderArticles(url, parent) {
     parent.innerHTML = html;
 }
 
-renderArticles(url, newsContainer);
+renderArticles(articlesUrl, newsContainer);
