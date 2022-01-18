@@ -1,0 +1,29 @@
+.main__article {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__articleLowerPart {
+    margin: 0;
+    padding: 7px;
+    flex: unset;
+    background-color: #57C9C4;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.main__articleLowerPart .main__articleButton a:hover {
+    color: #fff;
+}
+
+.main__articleTitle {
+    margin: 0;
+}
