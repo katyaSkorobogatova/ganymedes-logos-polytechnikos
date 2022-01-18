@@ -241,6 +241,10 @@ form input[type="submit"]:hover {
     color: #02062B;
 }
 
+.sidebarItem__link span {
+    font-size: 22px;
+}
+
 .sidebarItem__link:hover {
     color: white;
 }
