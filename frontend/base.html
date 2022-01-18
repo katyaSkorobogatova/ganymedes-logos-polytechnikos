@@ -81,6 +81,13 @@
                 {% if request.user|has_group:"editor" %}
                 <li class="nav__item">
                     <div class="sidebarItem">
+                        <a class="sidebarItem__link" href="{% url 'magazines' %}"><span>Nepublikované</span> časopisy</a>
+                        <a href="{% url 'magazines' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarMagazines.svg' %}"
+                                                           alt='icon' /></a>
+                    </div>
+                </li>
+                <li class="nav__item">
+                    <div class="sidebarItem">
                         <a class="sidebarItem__link" href="{% url 'reviewed' %}">Recenzováné články</a>
                         <a href="{% url 'reviewed' %}"><img class="sidebarItem__image" src="{% static 'images/sidebarNews.svg' %}"
                                 alt='icon' /></a>
